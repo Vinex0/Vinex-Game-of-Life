@@ -135,8 +135,6 @@ def main_loop():
                     intro()
 
         gameDisplay.fill(white)
-        text("Times New Roman", "Press D to go back to drawing mode", 15, (0, 0), green)
-        text("Times New Roman", "Press R to return to the main menu", 15, (0, 15), green)
         for x in range(30):
             for y in range(30):
                 if state_array[x, y]:
@@ -150,6 +148,8 @@ def main_loop():
                 elif not state_array[x, y] and check_neighbour(x, y) == 3:
                     state_array[x, y] = True
 
+        text("Times New Roman", "Press D to go back to drawing mode", 15, (0, 0), green)
+        text("Times New Roman", "Press R to return to the main menu", 15, (0, 15), green)
         pygame.display.update()
         clock.tick(5)
 
