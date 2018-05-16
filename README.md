@@ -3,7 +3,7 @@
 My version of the famous cellular automaton [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
 ## **Dependencies:**
-  **1.** Numpy
+  **1.** Numpy  
   **2.** Pygame
 
 ## **Controls:**  
