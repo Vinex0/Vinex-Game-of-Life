@@ -1,6 +1,6 @@
 # Vinex-Game-of-Life
 
-My version of the famous cellular automaton [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+My version of the famous cellular automaton [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 
 ## **Controls:**  
   **1.** Press the ***Random*** button for a randomly generated playing field. Each cell has a 50% chance of being alive.  
