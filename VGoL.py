@@ -109,6 +109,7 @@ def draw():
 
         pygame.display.update()
 
+
 def main_loop():
 
     for x in range(30):
@@ -127,8 +128,15 @@ def main_loop():
             if event.type == pygame.QUIT:
                  pygame.quit()
                  quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    draw()
+                elif event.key == pygame.K_r:
+                    intro()
 
         gameDisplay.fill(white)
+        text("Times New Roman", "Press D to go back to drawing mode", 15, (0, 0), green)
+        text("Times New Roman", "Press R to return to the main menu", 15, (0, 15), green)
         for x in range(30):
             for y in range(30):
                 if state_array[x, y]:
