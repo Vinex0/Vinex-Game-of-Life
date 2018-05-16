@@ -10,7 +10,7 @@ display_width = 750
 display_height = 750
 
 cell_side = 25
-state_array = np.full((30, 30, 1), True, dtype=bool)
+state_array = np.full((30, 30, 1), False, dtype=bool)
 neighbour_array = np.empty((30, 30, 8), dtype=list)
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
@@ -36,9 +36,9 @@ def choose_randomly():
             state_array[x, y] = random.choice([True, False])
 
 
-def text(font, content, size, pos):
+def text(font, content, size, pos, colour):
     sys_font = pygame.font.SysFont(str(font), size)
-    text_surface = sys_font.render(str(content), False, black)
+    text_surface = sys_font.render(str(content), False, colour)
     gameDisplay.blit(text_surface, pos)
 
 
@@ -74,6 +74,7 @@ def intro():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
         gameDisplay.fill(white)
         gameDisplay.blit(intro_text_object, (0 + ((display_width - (intro_text_object.get_rect()[2])) / 2), 100))
         button(display_width * 0.25, display_height * 0.75, 175, 75, (75, 75, 75), (100, 100, 100), "Times New Roman", 40, "Random", choose_randomly, main_loop)
@@ -83,14 +84,32 @@ def intro():
 
 
 def draw():
-    
-    mouse = pygame.mouse.get_pos()
+    eraser = False
     while True:
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    main_loop()
+                if event.key == pygame.K_SPACE:
+                    eraser = not eraser
         gameDisplay.fill(white)
+        for x in range(30):
+            for y in range(30):
+                if state_array[x, y]:
+                    pygame.draw.rect(gameDisplay, black, [x * 25, y * 25, cell_side, cell_side])
+        text("Times New Roman", "Press Space to toggle the eraser", 15, (0, 0), green)
+        text("Times New Roman", "Press Enter to continue", 15, (0, 15), green)
+        if click[0] == 1 and not eraser:
+            state_array[mouse[0] // 25, mouse[1] // 25] = True
+        elif click[0] == 1 and eraser:
+            state_array[mouse[0] // 25, mouse[1] // 25] = False
+
         pygame.display.update()
 
 def main_loop():
@@ -128,5 +147,6 @@ def main_loop():
 
         pygame.display.update()
         clock.tick(5)
-intro()
 
+
+intro()
