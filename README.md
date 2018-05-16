@@ -2,7 +2,7 @@
 
 My version of the famous cellular automaton [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
-**Controls:**  
+## **Controls:**  
   *1.* Press the *Random* button for a randomly generated playing field. Each cell has a 50% chance of being alive.  
   *2.* Press the *Draw* button to create your own starting condition. Use your left mouse button to select cells.  
      Holding and dragging is supported.  
