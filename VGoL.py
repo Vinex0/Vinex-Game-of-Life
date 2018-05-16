@@ -2,23 +2,23 @@ import pygame
 import numpy as np
 import random
 
-pygame.init()
-
 black = (0, 0, 0)
 white = (255, 255, 255)
+green = (46, 204, 113)
 
 display_width = 750
 display_height = 750
 
 cell_side = 25
-state_array = np.empty((30, 30, 1), dtype=bool)
+state_array = np.full((30, 30, 1), True, dtype=bool)
 neighbour_array = np.empty((30, 30, 8), dtype=list)
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption("Vinex' Game of Life")
-
 clock = pygame.time.Clock()
 
+def nothing():
+    pass
 
 def check_neighbour(x, y):
     neighbour_counter = 0
@@ -30,42 +30,103 @@ def check_neighbour(x, y):
     return neighbour_counter
 
 
-for x in range(30):
-    for y in range(30):
-        state_array[x, y] = random.choice([True, False])
-
-
-for x in range(30):
-   for y in range(30):
-        neighbour_array[x, y, 0] = [x - 1, y]
-        neighbour_array[x, y, 1] = [x + 1, y]
-        neighbour_array[x, y, 2] = [x, y - 1]
-        neighbour_array[x, y, 3] = [x, y + 1]
-        neighbour_array[x, y, 4] = [x - 1, y - 1]
-        neighbour_array[x, y, 5] = [x + 1, y - 1]
-        neighbour_array[x, y, 6] = [x - 1, y + 1]
-        neighbour_array[x, y, 7] = [x + 1, y + 1]
-
-
-while True:
-    for event in pygame.event.get():
-         if event.type == pygame.QUIT:
-             pygame.quit()
-             quit()
-
-    gameDisplay.fill(white)
+def choose_randomly():
     for x in range(30):
         for y in range(30):
-            if state_array[x, y]:
-                pygame.draw.rect(gameDisplay, black, [x * 25, y * 25, cell_side, cell_side])
-            if state_array[x, y] and check_neighbour(x, y) < 2:
-                state_array[x, y] = False
-            elif state_array[x, y] and (check_neighbour(x, y) == 2 or check_neighbour(x, y) == 3):
-                state_array[x, y] = True
-            elif state_array[x, y] and check_neighbour(x, y) > 3:
-                state_array[x, y] = False
-            elif not state_array[x, y] and check_neighbour(x, y) == 3:
-                state_array[x, y] = True
+            state_array[x, y] = random.choice([True, False])
 
-    pygame.display.update()
-    clock.tick(5)
+
+def text(font, content, size, pos):
+    sys_font = pygame.font.SysFont(str(font), size)
+    text_surface = sys_font.render(str(content), False, black)
+    gameDisplay.blit(text_surface, pos)
+
+
+def button(x, y, w, h, ic, ac, font, font_size, content, action, action2):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    button_font = pygame.font.SysFont(str(font), font_size)
+    button_text_object = button_font.render(str(content), False, black)
+
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x - 1, y - 1, w + 2, h + 2))
+        gameDisplay.blit(button_text_object, (x + ((w - button_text_object.get_rect()[2]) / 2), y + ((h - button_text_object.get_rect()[3]) / 2)))
+
+        if click[0] == 1 and action != None:
+            action()
+            if action2 != None:
+                action2()
+
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+        gameDisplay.blit(button_text_object, (x + ((w - button_text_object.get_rect()[2]) / 2), y + ((h - button_text_object.get_rect()[3]) / 2)))
+
+
+def intro():
+    pygame.init()
+    pygame.font.init()
+    intro_font = pygame.font.SysFont("Times New Roman", 55)
+    intro_text_object = intro_font.render("Vinex' Game of Life", False, black)
+
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        gameDisplay.fill(white)
+        gameDisplay.blit(intro_text_object, (0 + ((display_width - (intro_text_object.get_rect()[2])) / 2), 100))
+        button(display_width * 0.25, display_height * 0.75, 175, 75, (75, 75, 75), (100, 100, 100), "Times New Roman", 40, "Random", choose_randomly, main_loop)
+        button(display_width * 0.5, display_height * 0.75, 175, 75, (75, 75, 75), (100, 100, 100), "Times New Roman", 40, "Draw", draw, None)
+
+        pygame.display.update()
+
+
+def draw():
+    
+    mouse = pygame.mouse.get_pos()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        gameDisplay.fill(white)
+        pygame.display.update()
+
+def main_loop():
+
+    for x in range(30):
+        for y in range(30):
+            neighbour_array[x, y, 0] = [x - 1, y]
+            neighbour_array[x, y, 1] = [x + 1, y]
+            neighbour_array[x, y, 2] = [x, y - 1]
+            neighbour_array[x, y, 3] = [x, y + 1]
+            neighbour_array[x, y, 4] = [x - 1, y - 1]
+            neighbour_array[x, y, 5] = [x + 1, y - 1]
+            neighbour_array[x, y, 6] = [x - 1, y + 1]
+            neighbour_array[x, y, 7] = [x + 1, y + 1]
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                 pygame.quit()
+                 quit()
+
+        gameDisplay.fill(white)
+        for x in range(30):
+            for y in range(30):
+                if state_array[x, y]:
+                    pygame.draw.rect(gameDisplay, black, [x * 25, y * 25, cell_side, cell_side])
+                if state_array[x, y] and check_neighbour(x, y) < 2:
+                    state_array[x, y] = False
+                elif state_array[x, y] and (check_neighbour(x, y) == 2 or check_neighbour(x, y) == 3):
+                    state_array[x, y] = True
+                elif state_array[x, y] and check_neighbour(x, y) > 3:
+                    state_array[x, y] = False
+                elif not state_array[x, y] and check_neighbour(x, y) == 3:
+                    state_array[x, y] = True
+
+        pygame.display.update()
+        clock.tick(5)
+intro()
+
