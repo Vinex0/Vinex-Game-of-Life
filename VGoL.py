@@ -132,6 +132,9 @@ def main_loop():
                 if event.key == pygame.K_d:
                     draw()
                 elif event.key == pygame.K_r:
+                    for x in range(30):
+                        for y in range(30):
+                            state_array[x, y] = False
                     intro()
 
         gameDisplay.fill(white)
