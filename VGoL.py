@@ -17,7 +17,6 @@ gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption("Vinex' Game of Life")
 clock = pygame.time.Clock()
 speed = 5
-last_function = None
 
 
 def check_neighbour(x, y):
