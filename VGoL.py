@@ -16,6 +16,9 @@ neighbour_array = np.empty((30, 30, 8), dtype=list)
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption("Vinex' Game of Life")
 clock = pygame.time.Clock()
+speed = 5
+last_function = None
+
 
 def check_neighbour(x, y):
     neighbour_counter = 0
@@ -49,9 +52,9 @@ def button(x, y, w, h, ic, ac, font, font_size, content, action, action2):
         pygame.draw.rect(gameDisplay, ac, (x - 1, y - 1, w + 2, h + 2))
         gameDisplay.blit(button_text_object, (x + ((w - button_text_object.get_rect()[2]) / 2), y + ((h - button_text_object.get_rect()[3]) / 2)))
 
-        if click[0] == 1 and action != None:
+        if click[0] == 1 and action is not None:
             action()
-            if action2 != None:
+            if action2 is not None:
                 action2()
 
     else:
@@ -59,12 +62,46 @@ def button(x, y, w, h, ic, ac, font, font_size, content, action, action2):
         gameDisplay.blit(button_text_object, (x + ((w - button_text_object.get_rect()[2]) / 2), y + ((h - button_text_object.get_rect()[3]) / 2)))
 
 
+def set_speed_intro():
+    global speed
+    user_input = ""
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.name(event.key).isdigit():
+                    user_input += pygame.key.name(event.key)
+                if event.key == pygame.K_RETURN:
+                    speed = int(user_input)
+                    intro()
+
+
+def set_speed_main():
+    global speed
+    user_input = ""
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.name(event.key).isdigit():
+                    user_input += pygame.key.name(event.key)
+                if event.key == pygame.K_RETURN:
+                    speed = int(user_input)
+                    main_loop()
+
+
+def count_cells():
+    counter = 0
+    for x in range(30):
+        for y in range(30):
+            if state_array[x, y]:
+                counter += 1
+    return counter
+
+
 def intro():
     pygame.init()
     pygame.font.init()
     intro_font = pygame.font.SysFont("Times New Roman", 55)
     intro_text_object = intro_font.render("Vinex' Game of Life", False, black)
-
 
     while True:
         for event in pygame.event.get():
@@ -76,6 +113,8 @@ def intro():
         gameDisplay.blit(intro_text_object, (0 + ((display_width - (intro_text_object.get_rect()[2])) / 2), 100))
         button(display_width * 0.25, display_height * 0.75, 175, 75, (75, 75, 75), (100, 100, 100), "Times New Roman", 40, "Random", choose_randomly, main_loop)
         button(display_width * 0.5, display_height * 0.75, 175, 75, (75, 75, 75), (100, 100, 100), "Times New Roman", 40, "Draw", draw, None)
+        button(display_width * 0.25, display_height * 0.9, 175, 75, (75, 75, 75), (100, 100, 100), "Times New Roman", 40, "Speed:", set_speed_intro, None)
+        text("Times New Roman", str(speed), 40, (display_width * 0.5, display_height * 0.9), black)
 
         pygame.display.update()
 
@@ -111,7 +150,6 @@ def draw():
 
 
 def main_loop():
-
     for x in range(30):
         for y in range(30):
             neighbour_array[x, y, 0] = [x - 1, y]
@@ -126,8 +164,8 @@ def main_loop():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                 pygame.quit()
-                 quit()
+                pygame.quit()
+                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_d:
                     draw()
@@ -136,7 +174,8 @@ def main_loop():
                         for y in range(30):
                             state_array[x, y] = False
                     intro()
-
+                elif event.key == pygame.K_s:
+                    set_speed_main()
         gameDisplay.fill(white)
         for x in range(30):
             for y in range(30):
@@ -153,8 +192,12 @@ def main_loop():
 
         text("Times New Roman", "Press D to go back to drawing mode", 15, (0, 0), green)
         text("Times New Roman", "Press R to return to the main menu", 15, (0, 15), green)
+        text("Times New Roman", "Press S to change the speed", 15, (0, 30), green)
+        text("Times New Roman", "Living Cells: " + str(count_cells()), 15, (650, 0), green)
+        text("Times New Roman", "Speed: " + str(speed), 15, (650, 15), green)
+
         pygame.display.update()
-        clock.tick(5)
+        clock.tick(speed)
 
 
 intro()
