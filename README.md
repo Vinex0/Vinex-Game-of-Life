@@ -16,3 +16,8 @@ My version of the famous cellular automaton [Conway's Game of Life](https://en.w
   **6.** While the game is running you can press ***D*** to return to the draw mode and edit the current state of the game.  
   **7.** Alternatively, you can press ***R*** to return to the main menu and reset the playing field.  
   **8.** To change the speed while in the game is running, press ***S***, enter a desired speed, and hit enter to continue.
+
+### **ZIP**
+    The VGoLexe.zip file contains an exe file of the game, which was created using cx_Freeze, as well as the dependencies in the *lib*  
+    folder. To play the game without a having to worry about installing python and the depencies unzip it to a desired location  
+    and make sure all of the contained files are within the same folder. Then simply run the VGoL.exe file.
