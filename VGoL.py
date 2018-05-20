@@ -70,7 +70,7 @@ def set_speed_intro():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.name(event.key).isdigit():
                     user_input += pygame.key.name(event.key)
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN and user_input.isdigit():
                     speed = int(user_input)
                     intro()
 
@@ -83,7 +83,7 @@ def set_speed_main():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.name(event.key).isdigit():
                     user_input += pygame.key.name(event.key)
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN and user_input.isdigit():
                     speed = int(user_input)
                     main_loop()
 
