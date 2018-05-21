@@ -161,6 +161,8 @@ def main_loop():
             neighbour_array[x, y, 7] = [x + 1, y + 1]
 
     while True:
+        living_cells = str(count_cells())
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -192,7 +194,7 @@ def main_loop():
         text("Times New Roman", "Press D to go back to drawing mode", 15, (0, 0), green)
         text("Times New Roman", "Press R to return to the main menu", 15, (0, 15), green)
         text("Times New Roman", "Press S to change the speed", 15, (0, 30), green)
-        text("Times New Roman", "Living Cells: " + str(count_cells()), 15, (650, 0), green)
+        text("Times New Roman", "Living Cells: " + living_cells, 15, (650, 0), green)
         text("Times New Roman", "Speed: " + str(speed), 15, (650, 15), green)
 
         pygame.display.update()
