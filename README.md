@@ -19,4 +19,4 @@ My version of the famous cellular automaton [Conway's Game of Life](https://en.w
   
 ### ZIP
 
-The VGoLexe.zip file contains an exe file of the game, which was created using cx_Freeze, as well as the dependencies in the *lib* folder. To play the game without a having to worry about installing python and the depencies unzip it to a desired location and make sure all of the contained files are within the same folder. Then simply run the VGoL.exe file.
+The VGoLexe.zip file contains an exe file of the game, which was created using cx_Freeze, as well as the dependencies in the *lib* folder. To play the game without a having to worry about installing python and the depencies, unzip it to a desired location and make sure all of the contained files are within the same folder. Then simply run the VGoL.exe file.
